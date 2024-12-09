@@ -32,3 +32,7 @@ Which I think is useful but I could also have dug into more tasks.
 
 Fast is fun! How can we get faster?
 No manual tests on PR. Auto test everything.
+
+Part of why I want a closer to-mono repo approach is that I like using github for managing tasks.
+And then the repo is a nice level of organization. When everything is spread out you need
+jira to keep the state of what you're working on.

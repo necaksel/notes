@@ -121,4 +121,125 @@ xgbfp_chrrep13
 ic50_resert, proc12, ic50_rnn
 
 ## Mapping the intermediary output from my indit run
+`/data/`
+Full output in `data`
+```shell
+data
+├── ap_predictions
+│   ├── aggregated_predictions
+│   ├── alleles.data
+│   ├── data_strains_of_interest_..._M1_all_predictions.csv # Key output coulmns
+│   ├── data_strains_of_interest_..._M1_peptides.csv # All peptides
+│   └── intermediate_predictions
+├── data_strains_of_interest_with_gisaid_ncbi_and_gisaid_influenza_a_fasta_most_frequent_influenza_a_protein_M1.fasta
+├── hla-population-simulator
+│   ├── hla-population-simulation.yaml
+│   └── population
+├── hotspot-clusterer
+│   ├── aligned_extended_hotspots_per_cluster
+│   ├── aligned_hotspots_per_cluster
+│   ├── extended_hotspots_per_cluster_fasta
+│   ├── extended_hotspots_per_cluster_table
+│   ├── initial_hotspot_clusters
+│   └── results
+├── hotspot-detector
+│   ├── peaks_tsv
+│   ├── plots
+│   └── table_all_peak_regions.tsv
+├── hotspot-epitopes-scorer
+│   ├── results_10mers
+│   └── results_9mers
+├── run-2024-11-29_16:08:14
+│   ├── aksel_settings.yaml # Snapshot of settins
+│   └── indit.log           # Log of run
+```
 
+`M1_peptides.csv` seems to just have the peptides 2436 rows.
+`M1_all_predictsion.csv` 379861 lines, excluding header that is 379 860. 
+Why this many lines?
+
+2438*156 hla alleles = 380 172
+So that is where the line count comes from.
+Maybe we have some duplicate alleles.
+
+I will write the test with pytest and pytest-mocker
+
+
+Procesing result files are much much smaller, why?
+Because they are not specific to an allele. Probably just has
+2436 rows?
+Nah only 889 rows actually. Maybe de-duplicated?
+If I de-duplicate the peptides in the peptides files I get 739.
+
+## Combined processing and binding file
+Seems useful to keep.
+Has processing scores. And we don't have these elsewhere.
+The question is. If we have the processing and binding
+scores in the ap_peptides file then  idon't need to keep this?
+
+## AP file
+Keep! Seems to have useful stuff.
+
+## Running integration tests
+
+INtermedaiate files before
+```shell
+(venv) aksel@cepi9:~/indit$ ls Results/ap_predictions/intermediate_predictions/
+cepi21_bind_results_cpc.csv              cepi21_proc_results_svm_w_v_8x.csv         cepi22_bind_results_hopp_core.csv        cepi22_proc_results_svm_x_b_8c.csv
+cepi21_bind_results_hopp_core.csv        cepi21_proc_results_svm_x_b_8c.csv         cepi22.csv                               cepi22_proc_results_svm_x_b_8o.csv
+cepi21.csv                               cepi21_proc_results_svm_x_b_8o.csv         cepi22_peptides_ap.csv                   cepi22_proc_results_svm_x_b_8x.csv
+cepi21_peptides_ap.csv                   cepi21_proc_results_svm_x_b_8x.csv         cepi22_proc_and_bind_results_merged.csv  cepi22_proc_results_svm_x_v_8c.csv
+cepi21_proc_and_bind_results_merged.csv  cepi21_proc_results_svm_x_v_8c.csv         cepi22_proc_results_neural_w_b_8c.csv    cepi22_proc_results_svm_x_v_8o.csv
+cepi21_proc_results_neural_w_b_8c.csv    cepi21_proc_results_svm_x_v_8o.csv         cepi22_proc_results_svm_w_b_8c.csv       cepi22_proc_results_svm_x_v_8x.csv
+cepi21_proc_results_svm_w_b_8c.csv       cepi21_proc_results_svm_x_v_8x.csv         cepi22_proc_results_svm_w_b_8o.csv       cepi22_rnn.csv
+cepi21_proc_results_svm_w_b_8o.csv       cepi21_rnn.csv                             cepi22_proc_results_svm_w_b_8x.csv       cepi22_rnn_without_duplicate_peptides.csv
+cepi21_proc_results_svm_w_b_8x.csv       cepi21_rnn_without_duplicate_peptides.csv  cepi22_proc_results_svm_w_v_8c.csv       cepi22_sanitized.csv
+cepi21_proc_results_svm_w_v_8c.csv       cepi21_sanitized.csv                       cepi22_proc_results_svm_w_v_8o.csv
+cepi21_proc_results_svm_w_v_8o.csv       cepi22_bind_results_cpc.csv                cepi22_proc_results_svm_w_v_8x.csv
+(venv) aksel@cepi9:~/indit$ ls -lh Results/ap_predictions/intermediate_predictions/
+total 173M
+-rw-r--r-- 1 root  root   26M Nov 28 16:26 cepi21_bind_results_cpc.csv
+-rw-r--r-- 1 root  root   26M Nov 28 16:25 cepi21_bind_results_hopp_core.csv
+-rw-rw-r-- 1 aksel aksel 7.3M Nov 28 16:17 cepi21.csv
+-rw-rw-r-- 1 aksel aksel  18M Nov 28 16:27 cepi21_peptides_ap.csv
+-rw-rw-r-- 1 aksel aksel  16M Nov 28 16:26 cepi21_proc_and_bind_results_merged.csv
+-rw-r--r-- 1 root  root   80K Nov 28 16:21 cepi21_proc_results_neural_w_b_8c.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:21 cepi21_proc_results_svm_w_b_8c.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:21 cepi21_proc_results_svm_w_b_8o.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:21 cepi21_proc_results_svm_w_b_8x.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:21 cepi21_proc_results_svm_w_v_8c.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:21 cepi21_proc_results_svm_w_v_8o.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:22 cepi21_proc_results_svm_w_v_8x.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:22 cepi21_proc_results_svm_x_b_8c.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:22 cepi21_proc_results_svm_x_b_8o.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:22 cepi21_proc_results_svm_x_b_8x.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:22 cepi21_proc_results_svm_x_v_8c.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:22 cepi21_proc_results_svm_x_v_8o.csv
+-rw-r--r-- 1 root  root   77K Nov 28 16:22 cepi21_proc_results_svm_x_v_8x.csv
+-rw-r--r-- 1 root  root  9.1M Nov 28 16:21 cepi21_rnn.csv
+-rw-rw-r-- 1 aksel aksel  52K Nov 28 16:21 cepi21_rnn_without_duplicate_peptides.csv
+-rw-r--r-- 1 root  root   23M Nov 28 16:17 cepi21_sanitized.csv
+-rw-r--r-- 1 root  root   11M Nov 28 16:34 cepi22_bind_results_cpc.csv
+-rw-r--r-- 1 root  root   11M Nov 28 16:32 cepi22_bind_results_hopp_core.csv
+-rw-rw-r-- 1 aksel aksel 2.9M Nov 28 16:27 cepi22.csv
+-rw-rw-r-- 1 aksel aksel 7.2M Nov 28 16:34 cepi22_peptides_ap.csv
+-rw-rw-r-- 1 aksel aksel 6.0M Nov 28 16:34 cepi22_proc_and_bind_results_merged.csv
+-rw-r--r-- 1 root  root   37K Nov 28 16:29 cepi22_proc_results_neural_w_b_8c.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:29 cepi22_proc_results_svm_w_b_8c.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:29 cepi22_proc_results_svm_w_b_8o.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:29 cepi22_proc_results_svm_w_b_8x.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:29 cepi22_proc_results_svm_w_v_8c.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:29 cepi22_proc_results_svm_w_v_8o.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:30 cepi22_proc_results_svm_w_v_8x.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:30 cepi22_proc_results_svm_x_b_8c.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:30 cepi22_proc_results_svm_x_b_8o.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:30 cepi22_proc_results_svm_x_b_8x.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:30 cepi22_proc_results_svm_x_v_8c.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:30 cepi22_proc_results_svm_x_v_8o.csv
+-rw-r--r-- 1 root  root   36K Nov 28 16:30 cepi22_proc_results_svm_x_v_8x.csv
+-rw-r--r-- 1 root  root  3.6M Nov 28 16:29 cepi22_rnn.csv
+-rw-rw-r-- 1 aksel aksel  24K Nov 28 16:29 cepi22_rnn_without_duplicate_peptides.csv
+-rw-r--r-- 1 root  root  8.8M Nov 28 16:27 cepi22_sanitized.csv
+```
+
+Then I run

@@ -36,3 +36,10 @@ No manual tests on PR. Auto test everything.
 Part of why I want a closer to-mono repo approach is that I like using github for managing tasks.
 And then the repo is a nice level of organization. When everything is spread out you need
 jira to keep the state of what you're working on.
+
+If we keep the indit manual in the repo we don't need to copy our doucentation out.
+It will be tagged along with the code revision.
+From the release guidelines
+> Prepare documentation for release:
+
+Create a copy of indit User Manual and rename it to contain release tag, e.g. INDIT v1.3.0 User Manual. Remove any sections unrelated to current release (e.g. WIP manuals for modules that cannot be run within indit).

@@ -243,3 +243,158 @@ total 173M
 ```
 
 Then I run
+
+We have a task `clean prediction results`.
+
+Ran with prints with custom config that has almost all steps disabled.
+That workes well.
+
+I had the path wrong. Trying again now.
+Could honestly add a test for the deletion path being right with the settings we have.
+Then the types could have helped me.
+
+Found the bug.
+I don't know if testing would have shown me this.
+If I could have written a test that acurately represented where the function would be
+run and how settings with the paths were set then I could have caught it.
+But I don't think this is set up already.
+Making it could have been valuable.
+
+Workflow test failure on indit9
+```shell
+Run junction scorer with missing parameters:
+        command:   python indit/flows/junction_scorer_flow.py
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_junction_scorer_with_missing_parameters
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_junction_scorer_with_missing_parameters/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_junction_scorer_with_missing_parameters/log.err
+'Run junction scorer with missing parameters' done.
+
+Run junction scorer on example input:
+        command:   python indit/flows/junction_scorer_flow.py --hotspots-file test_data/junction_scorer/input/test01_vaccine_selections.csv --alleles-file test_data/junction_scorer/input/test01_alleles.txt --spacers-file test_data/junction_scorer/input/test01_spacers.txt --output-dir results
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_junction_scorer_on_example_input
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_junction_scorer_on_example_input/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_junction_scorer_on_example_input/log.err
+'Run junction scorer on example input' done.
+
+Run indit pipeline with missing arguments:
+        command:   indit
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_with_missing_arguments
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_with_missing_arguments/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_with_missing_arguments/log.err
+'Run indit pipeline with missing arguments' done.
+
+Run indit pipeline with existing output directory but without using --force:
+        command:   bash -c 'mkdir Results && indit -i test_data/pipeline/'
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_with_existing_output_directory_but_without_using_--force
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_with_existing_output_directory_but_without_using_--force/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_with_existing_output_directory_but_without_using_--force/log.err
+'Run indit pipeline with existing output directory but without using --force' done.
+
+Run indit pipeline on multiple input files:
+        command:   ./tests/integration_test.sh
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/log.err
+'Run indit pipeline on multiple input files' done.
+
+Run create_pytest_workflow_file_list script:
+        command:   python scripts/create_pytest_workflow_file_list.py  test_data/pipeline/expected_results_cepi2/hotspot-detector/
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_create_pytest_workflow_file_list_script
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_create_pytest_workflow_file_list_script/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_create_pytest_workflow_file_list_script/log.err
+'Run create_pytest_workflow_file_list script' done.
+
+Run validate_input script:
+        command:   python scripts/validate_input.py -i test_data/pipeline/cepi21.fasta
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_validate_input_script
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_validate_input_script/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_validate_input_script/log.err
+'Run validate_input script' done.
+
+Run validate_input script with output and errors:
+        command:   python scripts/validate_input.py -i test_data/validate_input/invalid_aa_header.fasta -o test_data/validate_input/
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_with_output_and_errors
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_with_output_and_errors/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_with_output_and_errors/log.err
+'Run validate_input script with output and errors' done.
+
+Run validate_input script on file with invalid filename suffix:
+        command:   python scripts/validate_input.py -i test_data/validate_input/not_fasta_suffix.txt -o test_data/validate_input/
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_on_file_with_invalid_filename_suffix
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_on_file_with_invalid_filename_suffix/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_on_file_with_invalid_filename_suffix/log.err
+'Run validate_input script on file with invalid filename suffix' done.
+
+Run validate_input script on file with invalid filename:
+        command:   python scripts/validate_input.py -i test_data/validate_input/heatmap.fasta -o test_data/validate_input/
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_on_file_with_invalid_filename
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_on_file_with_invalid_filename/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_on_file_with_invalid_filename/log.err
+'Run validate_input script on file with invalid filename' done.
+
+Run validate_input script on another file with invalid filename:
+        command:   python scripts/validate_input.py -i test_data/validate_input/dash-fasta.fasta -o test_data/validate_input/
+
+        directory: /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_on_another_file_with_invalid_filename
+        stdout:    /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_on_another_file_with_invalid_filename/log.out
+        stderr:    /tmp/pytest_workflow_t8ch152l/Run_validate_input_script_on_another_file_with_invalid_filename/log.err
+'Run validate_input script on another file with invalid filename' done.
+
+workflow_tests/test_indit_pce.yaml ...............................                                                            [ 22%]
+workflow_tests/test_junction_scorer.yaml .....                                                                                [ 26%]
+workflow_tests/test_pipeline.yaml .......................................................FFFF..FFFFFFFF........ [ 83%]
+                                                                                                                              [ 83%]
+workflow_tests/test_scripts.yaml .......................                                                                      [100%]One or more tests failed. Keeping temporary directories and logs. Use '--kwd' or '--keep-workflow-wd' to disable this behaviour.
+
+
+============================================================= FAILURES ==============================================================
+___________________________________________________________ test session ____________________________________________________________
+'/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi21.csv' does not exist while it should
+___________________________________________________________ test session ____________________________________________________________
+Observed md5sum 'None' not equal to expected md5sum 'dd1ae370f335efb6607a92b89042c7c4' for file '/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi21.csv'
+___________________________________________________________ test session ____________________________________________________________
+'/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi22_sanitized.csv' does not exist while it should
+___________________________________________________________ test session ____________________________________________________________
+Observed md5sum 'None' not equal to expected md5sum '6f8ef5e7b99ed48881b3d4e1b1fad3e9' for file '/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi22_sanitized.csv'
+___________________________________________________________ test session ____________________________________________________________
+'/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi21_sanitized.csv' does not exist while it should
+___________________________________________________________ test session ____________________________________________________________
+Observed md5sum 'None' not equal to expected md5sum '72e8bb7fed4f5f64e3dd191ad536a13e' for file '/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi21_sanitized.csv'
+___________________________________________________________ test session ____________________________________________________________
+'/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi22_rnn.csv' does not exist while it should
+___________________________________________________________ test session ____________________________________________________________
+Observed md5sum 'None' not equal to expected md5sum '0a9a304d98c94996a41fef9e79fe2088' for file '/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi22_rnn.csv'
+___________________________________________________________ test session ____________________________________________________________
+'/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi21_rnn.csv' does not exist while it should
+___________________________________________________________ test session ____________________________________________________________
+Observed md5sum 'None' not equal to expected md5sum '343a6286708baace8bf3cb783a6e0a44' for file '/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi21_rnn.csv'
+___________________________________________________________ test session ____________________________________________________________
+'/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi22.csv' does not exist while it should
+___________________________________________________________ test session ____________________________________________________________
+Observed md5sum 'None' not equal to expected md5sum '6fe6a6c01209f17e035f6a38d3e25295' for file '/tmp/pytest_workflow_t8ch152l/Run_indit_pipeline_on_multiple_input_files/Results/ap_predictions/intermediate_predictions/cepi22.csv'
+====================================================== short test summary info ======================================================
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi21.csv::should exist
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi21.csv::md5sum
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi22_sanitized.csv::should exist
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi22_sanitized.csv::md5sum
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi21_sanitized.csv::should exist
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi21_sanitized.csv::md5sum
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi22_rnn.csv::should exist
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi22_rnn.csv::md5sum
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi21_rnn.csv::should exist
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi21_rnn.csv::md5sum
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi22.csv::should exist
+FAILED workflow_tests/test_pipeline.yaml::Run indit pipeline on multiple input files::Results/ap_predictions/intermediate_predictions/cepi22.csv::md5sum
+============================================ 12 failed, 124 passed in 2914.06s (0:48:34) ============================================
+make: *** [Makefile:37: workflow-test] Error 1
+```

@@ -41,5 +41,12 @@ If we keep the indit manual in the repo we don't need to copy our doucentation o
 It will be tagged along with the code revision.
 From the release guidelines
 > Prepare documentation for release:
-
 Create a copy of indit User Manual and rename it to contain release tag, e.g. INDIT v1.3.0 User Manual. Remove any sections unrelated to current release (e.g. WIP manuals for modules that cannot be run within indit).
+
+We can also run doctest on the manual then!
+
+I really want an automatic way to track server occupation. Confluence sheet is too much effort
+for me to bother. I call "who" and if it is free I run my things.
+
+Indit logs are filled with predictor progress bars. Would be nice to have these hidden
+by default.
